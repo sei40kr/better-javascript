@@ -1,2 +1,3 @@
 # better-javascript
-Better JavaScript layer for Spacemacs
+
+Better JavaScript layer for Spacemacs.
