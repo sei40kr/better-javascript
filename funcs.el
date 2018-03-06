@@ -8,6 +8,14 @@
 ;;
 ;;; License: GPLv3
 
+(defun spacemacs//javascript-typescript-setup-lsp ())
+
+(defun spacemacs//javascript-flow-setup-lsp ())
+
+(defun spacemacs//javascript-setup-lsp())
+
+(defun spacemacs//javascript-setup-lsp-company())
+
 ;; import-js
 
 (defun spacemacs//import-js-detect ()
