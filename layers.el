@@ -8,4 +8,4 @@
 ;;
 ;;; License: MIT
 
-(configuration-layer/declare-layer '(node))
+(configuration-layer/declare-layer '(javascript))
