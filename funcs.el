@@ -32,7 +32,5 @@
   (setq-local emmet-expand-jsx-className? t)
   ;; Enable js-mode snippets
   (yas-activate-extra-mode 'js-mode)
-  ;; Don't auto-quote attribute values
-  (setq-local web-mode-enable-auto-quoting nil)
   ;; See https://github.com/syl20bnr/spacemacs/issues/8222
   (set (make-local-variable 'company-minimum-prefix-length) 2))

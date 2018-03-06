@@ -39,8 +39,7 @@
   (add-hook `rjsx-mode `turn-on-evil-matchit-mode))
 
 (defun better-javascript/post-init-flycheck ()
-  (dolist (mode '(rjsx-mode json-mode))
-    (spacemacs/enable-flycheck mode)))
+  (spacemacs/enable-flycheck 'rjsx-mode))
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
