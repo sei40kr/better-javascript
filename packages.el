@@ -28,6 +28,11 @@
 (setq better-javascript-excluded-packages
   '(
      company-tern
+     ggtags
+     counsel-gtags
+     helm-gtags
+     js2-mode
+     js2-refactor
      tern
      web-beautify))
 
