@@ -52,19 +52,26 @@
 ;; lsp
 
 (defun spacemacs//javascript-setup-lsp ()
-  "Setup lsp backend."
+  "Conditionally setup lsp backend."
   (if (configuration-layer/layer-used-p 'lsp)
-    (if (and
-          (configuration-layer/package-used-p 'lsp-javascript-flow)
-          (spacemacs//flow-annotation-present-p))
-      (progn
-        (require 'lsp-javascript-flow)
-        (lsp-javascript-flow-enable))
-      (if (configuration-layer/package-used-p 'lsp-typescript)
-        (progn
-          (require 'lsp-typescript)
-          (lsp-typescript-enable))))
+    (if (spacemacs//flow-annotation-present-p)
+      (spacemacs//javascript-setup-lsp-javascript-flow)
+      (spacemacs//javascript-setup-lsp-typescript))
     (message "`lsp' layer is not installed, please add `lsp' layer to your dofile.")))
+
+(defun spacemacs//javascript-setup-lsp-javascript-flow ()
+  "Setup lsp backend with lsp-javascript-flow."
+  (if (configuration-layer/package-used-p 'lsp-javascript-flow)
+    (progn
+      (require 'lsp-javascript-flow)
+      (lsp-javascript-flow-enable))))
+
+(defun spacemacs//javascript-setup-lsp-typescript ()
+  "Setup lsp backend with lsp-typescript."
+  (if (configuration-layer/package-used-p 'lsp-typescript)
+    (progn
+      (require 'lsp-typescript)
+      (lsp-typescript-enable))))
 
 (defun spacemacs//javascript-setup-lsp-company ()
   "Setup lsp auto-completion."
