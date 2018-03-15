@@ -56,7 +56,7 @@
   (if (configuration-layer/layer-used-p 'lsp)
     (if (spacemacs//flow-annotation-present-p)
       (spacemacs//javascript-setup-lsp-javascript-flow)
-      (spacemacs//javascript-setup-lsp-typescript))
+      (spacemacs//javascript-setup-lsp-javascript-typescript))
     (message "`lsp' layer is not installed, please add `lsp' layer to your dofile.")))
 
 (defun spacemacs//javascript-setup-lsp-javascript-flow ()
