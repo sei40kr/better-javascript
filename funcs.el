@@ -66,6 +66,13 @@
       (require 'lsp-javascript-flow)
       (lsp-javascript-flow-enable))))
 
+(defun spacemacs//javascript-setup-lsp-javascript-typescript ()
+  "Setup lsp backend with lsp-javascript-typescript."
+  (if (configuration-layer/package-used-p 'lsp-javascript-typescript)
+    (progn
+      (require 'lsp-javascript-typescript)
+      (lsp-javascript-typescript-enable))))
+
 (defun spacemacs//javascript-setup-lsp-typescript ()
   "Setup lsp backend with lsp-typescript."
   (if (configuration-layer/package-used-p 'lsp-typescript)

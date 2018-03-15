@@ -20,6 +20,7 @@
      livid-mode
      lsp-mode
      (lsp-javascript-flow :location local)
+     (lsp-javascript-typescript :location local)
      (lsp-typescript :location local)
      rjsx-mode
      skewer-mode
@@ -83,6 +84,10 @@
 (defun better-javascript/init-lsp-javascript-flow ()
   (use-package lsp-javascript-flow
     :commands lsp-javascript-flow-enable))
+
+(defun better-javascript/init-lsp-javascript-typescript ()
+  (use-package lsp-javascript-typescript
+    :commands lsp-javascript-typescript-enable))
 
 (defun better-javascript/init-lsp-typescript ()
   (use-package lsp-typescript
