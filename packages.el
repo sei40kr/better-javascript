@@ -22,6 +22,7 @@
      (lsp-javascript-flow :location local)
      (lsp-javascript-typescript :location local)
      (lsp-typescript :location local)
+     prettier-js
      rjsx-mode
      skewer-mode
      smartparens))
@@ -92,6 +93,13 @@
 (defun better-javascript/init-lsp-typescript ()
   (use-package lsp-typescript
     :commands lsp-typescript-enable))
+
+(defun better-javascript/init-prettier-js ()
+  (use-package prettier-js
+    :init
+    (progn
+      (setq prettier-js-show-errors 'echo)
+      (add-hook 'rjsx-mode-hook 'prettier-js-mode))))
 
 (defun better-javascript/init-rjsx-mode ()
   (use-package rjsx-mode
