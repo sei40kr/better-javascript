@@ -12,51 +12,86 @@
   '(
      add-node-modules-path
      company
+     (company-flow :requires company)
      emmet-mode
+     eslintd-fix
      evil-matchit
+     flow-minor-mode
      flycheck
+     (flycheck-flow :requires flycheck)
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
      livid-mode
-     lsp-mode
-     (lsp-javascript-flow :location local)
-     (lsp-javascript-typescript :location local)
-     (lsp-typescript :location local)
-     prettier-js
      rjsx-mode
      skewer-mode
      smartparens))
 
-(setq better-javascript-excluded-packages
-  '(
-     company-tern
-     ggtags
-     counsel-gtags
-     helm-gtags
-     js2-mode
-     js2-refactor
-     tern
-     web-beautify))
+(setq better-javascript-excluded-packages '())
 
 (defun better-javascript/post-init-add-node-modules-path ()
   (add-hook 'rjsx-mode-hook #'add-node-modules-path))
 
 (defun better-javascript/post-init-company ()
-  (add-hook 'rjsx-mode-hook #'spacemacs//javascript-setup-lsp-company))
+  (spacemacs|add-company-backends
+    :backends '((company-flow :with company-dabbrev-code) company-files)))
+
+(defun better-javascript/init-company-flow ()
+  (use-package company-flow
+    :defer t))
 
 (defun better-javascript/post-init-emmet-mode ()
   (add-hook 'rjsx-mode-hook #'emmet-mode))
 
+(defun better-javascript/init-eslintd-fix ()
+  (use-package eslintd-fix
+    :commands eslintd-fix
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
+      "=" #'eslintd-fix)
+    :custom
+    (eslintd-fix-preprocess-command "prettier")))
+
 (defun better-javascript/post-init-evil-matchit ()
+  (add-hook 'rjsx-mode-hook #'turn-on-evil-matchit-mode)
   (with-eval-after-load 'evil-matchit
     (plist-put evilmi-plugins 'rjsx-mode
       '((evilmi-simple-get-tag evilmi-simple-jump)
          (evilmi-javascript-get-tag evilmi-javascript-jump)
-         (evilmi-html-get-tag evilmi-html-jump))))
-  (add-hook 'rjsx-mode-hook #'turn-on-evil-matchit-mode))
+         (evilmi-html-get-tag evilmi-html-jump)))))
+
+(defun better-javascript/init-flow-minor-mode ()
+  (use-package flow-minor-mode
+    :defer t
+    :config
+    (progn
+      (spacemacs|hide-lighter flow-minor-mode)
+      (spacemacs|define-jump-handlers flow-minor-mode
+        #'flow-minor-jump-to-definition)
+      (spacemacs/declare-prefix-for-mode 'rjsx-mode "mf" "flow")
+      (spacemacs/set-leader-keys-for-minor-mode 'flow-minor-mode
+        "fc" 'flow-minor-coverage
+        "fd" 'flow-minor-jump-to-definition
+        "ff" 'flow-minor-suggest
+        "fs" 'flow-minor-status
+        "ft" 'flow-minor-type-at-pos))
+    :hook (rjsx-mode . flow-minor-enable-automatically)))
 
 (defun better-javascript/post-init-flycheck ()
-  (spacemacs/enable-flycheck 'rjsx-mode))
+  (spacemacs/enable-flycheck 'rjsx-mode)
+  (with-eval-after-load 'flycheck
+    (push 'javascript-jshint flycheck-disabled-checkers)
+    (push 'javascript-standard flycheck-disabled-checkers))
+  (add-hook 'rjsx-mode-hook #'spacemacs/setup-flycheck-eslint))
+
+(defun better-javascript/init-flycheck-flow ()
+  (use-package flycheck-flow
+    :config
+    (progn
+      (flycheck-add-mode 'javascript-flow 'rjsx-mode)
+      (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
+    :custom
+    (flycheck-javascript-flow-args (quote ("--respect-pragma")))
+  ))
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
@@ -65,13 +100,13 @@
     (progn
       (spacemacs/declare-prefix-for-mode 'rjsx-mode "mi" "import")
       (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
-        "if" 'import-js-fix
-        "ii" 'import-js-import
-        "ig" 'import-js-goto))))
+        "if" #'import-js-fix
+        "ii" #'import-js-import
+        "ig" #'import-js-goto))))
 
 (defun better-javascript/post-init-js-doc ()
-  (add-hook 'rjsx-mode-hook #'spacemacs/js-doc-require)
-  (spacemacs/js-doc-set-key-bindings 'rjsx-mode))
+  (spacemacs/js-doc-set-key-bindings 'rjsx-mode)
+  (add-hook 'rjsx-mode-hook #'spacemacs/js-doc-require))
 
 (defun better-javascript/pre-init-livid-mode ()
   (spacemacs|add-toggle javascript-repl-live-evaluation
@@ -79,47 +114,32 @@
     :documentation "Live evaluation of JS buffer change."
     :evil-leader-for-mode (rjsx-mode . "Tl")))
 
-(defun better-javascript/pre-init-lsp-mode ()
-  (add-hook 'rjsx-mode-hook #'spacemacs//javascript-setup-lsp))
-
-(defun better-javascript/init-lsp-javascript-flow ()
-  (use-package lsp-javascript-flow
-    :commands lsp-javascript-flow-enable))
-
-(defun better-javascript/init-lsp-javascript-typescript ()
-  (use-package lsp-javascript-typescript
-    :commands lsp-javascript-typescript-enable))
-
-(defun better-javascript/init-lsp-typescript ()
-  (use-package lsp-typescript
-    :commands lsp-typescript-enable))
-
-(defun better-javascript/init-prettier-js ()
-  (use-package prettier-js
-    :init
-    (progn
-      (setq prettier-js-show-errors 'echo)
-      (add-hook 'rjsx-mode-hook 'prettier-js-mode))))
-
 (defun better-javascript/init-rjsx-mode ()
   (use-package rjsx-mode
     :defer t
-    :init
-    (progn
-      (add-to-list 'auto-mode-alist '("\\.js[x]?$" . rjsx-mode))
-      (add-hook 'rjsx-mode-hook #'spacemacs//setup-rjsx-mode))
     :config
     (progn
-      ;; prefixes
       (spacemacs/declare-prefix-for-mode 'rjsx-mode "mz" "folding")
-      ;; key bindings
       (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
-        "zc" 'js2-mode-hide-element
-        "zo" 'js2-mode-show-element
-        "zr" 'js2-mode-show-all
-        "ze" 'js2-mode-toggle-element
-        "zF" 'js2-mode-toggle-hide-functions
-        "zC" 'js2-mode-toggle-hide-comments))))
+        "zc" #'js2-mode-hide-element
+        "zo" #'js2-mode-show-element
+        "zr" #'js2-mode-show-all
+        "ze" #'js2-mode-toggle-element
+        "zF" #'js2-mode-toggle-hide-functions
+        "zC" #'js2-mode-toggle-hide-comments))
+    :mode ("\\.js[x]?$" . rjsx-mode)
+    :hook (rjsx-mode . spacemacs//setup-rjsx-mode)
+    :custom
+    (js2-mode-show-parse-errors nil)
+    (js2-mode-assume-strict nil)
+    (js2-mode-show-strict-warnings nil)
+    (js2-strict-trailing-comma-warning nil)
+    (js2-strict-missing-semi-warning nil)
+    (js2-missing-semi-one-line-override t)
+    (js2-strict-inconsistent-return-warning nil)
+    (js2-strict-cond-assign-warning nil)
+    (js2-strict-var-redeclaration-warning nil)
+    (js2-strict-var-hides-function-arg-warning nil)))
 
 (defun better-javascript/pre-init-skewer-mode ()
   (add-hook 'rjsx-mode-hook #'skewer-mode))
@@ -128,17 +148,17 @@
   (spacemacs/declare-prefix-for-mode 'rjsx-mode "ms" "skewer")
   (spacemacs/declare-prefix-for-mode 'rjsx-mode "me" "eval")
   (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
-    "'" 'spacemacs/skewer-start-repl
-    "ee" 'skewer-eval-last-expression
-    "eE" 'skewer-eval-print-last-expression
-    "sb" 'skewer-load-buffer
-    "sB" 'spacemacs/skewer-load-buffer-and-focus
-    "si" 'spacemacs/skewer-start-repl
-    "sf" 'skewer-eval-defun
-    "sF" 'spacemacs/skewer-eval-defun-and-focus
-    "sr" 'spacemacs/skewer-eval-region
-    "sR" 'spacemacs/skewer-eval-region-and-focus
-    "ss" 'skewer-repl))
+    "'" #'spacemacs/skewer-start-repl
+    "ee" #'skewer-eval-last-expression
+    "eE" #'skewer-eval-print-last-expression
+    "sb" #'skewer-load-buffer
+    "sB" #'spacemacs/skewer-load-buffer-and-focus
+    "si" #'spacemacs/skewer-start-repl
+    "sf" #'skewer-eval-defun
+    "sF" #'spacemacs/skewer-eval-defun-and-focus
+    "sr" #'spacemacs/skewer-eval-region
+    "sR" #'spacemacs/skewer-eval-region-and-focus
+    "ss" #'skewer-repl))
 
 (defun better-javascript/post-init-smartparens ()
   (if dotspacemacs-smartparens-strict-mode
