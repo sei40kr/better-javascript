@@ -102,7 +102,8 @@
       (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
         "if" #'import-js-fix
         "ii" #'import-js-import
-        "ig" #'import-js-goto))))
+        "ig" #'import-js-goto))
+    :hook (rjsx-mode . run-import-js)))
 
 (defun better-javascript/post-init-js-doc ()
   (spacemacs/js-doc-set-key-bindings 'rjsx-mode)
