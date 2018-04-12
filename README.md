@@ -78,3 +78,7 @@ $ npm install -g eslint-cli eslint_d
 | Key Binding | Description                     |
 |-------------|---------------------------------|
 | `SPC m =`   | format code in Prettier, ESLint |
+
+# Special Thanks
+
+* [@agevelt's aj-javascript layer for Spacemacs](https://github.com/agevelt/.spacemacs.d/tree/master/layers/%2Baj/aj-javascript)
