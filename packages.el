@@ -22,6 +22,7 @@
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
      livid-mode
+     (prettier-eslint :location local)
      rjsx-mode
      skewer-mode
      smartparens))
@@ -111,6 +112,13 @@
     :mode livid-mode
     :documentation "Live evaluation of JS buffer change."
     :evil-leader-for-mode (rjsx-mode . "Tl")))
+
+(defun better-javascript/init-prettier-eslint ()
+  (use-package prettier-eslint
+    :commands prettier-eslint
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
+      "=" #'prettier-eslint)))
 
 (defun better-javascript/init-rjsx-mode ()
   (use-package rjsx-mode
