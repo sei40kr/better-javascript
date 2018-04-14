@@ -88,10 +88,7 @@
     :config
     (progn
       (flycheck-add-mode 'javascript-flow 'rjsx-mode)
-      (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
-    :custom
-    (flycheck-javascript-flow-args (quote ("--respect-pragma")))
-  ))
+      (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))))
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
