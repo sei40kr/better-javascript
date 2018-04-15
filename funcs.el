@@ -28,6 +28,16 @@
     found))
 
 
+;; prettier-eslint
+
+(defun spacemacs//prettier-eslint-detect ()
+  "Detect prettier-eslint binary and warn if not found."
+  (let ((found (executable-find "prettier-eslint")))
+    (unless found
+      (spacemacs-buffer/warning "prettier-eslint binary not found!"))
+    found))
+
+
 ;; rjsx-mode
 
 (defun spacemacs//setup-rjsx-mode ()

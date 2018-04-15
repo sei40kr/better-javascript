@@ -22,7 +22,9 @@
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
      livid-mode
-     (prettier-eslint :location local)
+     (prettier-eslint
+       :location local
+       :toggle (spacemacs//prettier-eslint-detect))
      rjsx-mode
      skewer-mode
      smartparens))
