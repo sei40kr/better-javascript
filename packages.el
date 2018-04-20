@@ -13,7 +13,6 @@
      add-node-modules-path
      company
      emmet-mode
-     eslintd-fix
      evil-matchit
      flycheck
      (import-js :toggle (spacemacs//import-js-detect))
@@ -48,15 +47,6 @@
 
 (defun better-javascript/post-init-emmet-mode ()
   (add-hook 'rjsx-mode-hook #'emmet-mode))
-
-(defun better-javascript/init-eslintd-fix ()
-  (use-package eslintd-fix
-    :commands eslintd-fix
-    :init
-    (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
-      "=" #'eslintd-fix)
-    :custom
-    (eslintd-fix-preprocess-command "prettier")))
 
 (defun better-javascript/post-init-evil-matchit ()
   (add-hook 'rjsx-mode-hook #'turn-on-evil-matchit-mode)
