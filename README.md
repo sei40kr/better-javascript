@@ -55,16 +55,6 @@ $ npm install -g eslint-cli eslint_d
 
 # Key Bindings
 
-## flow-minor-mode
-
-| Key Binding | Description                                                  |
-|-------------|--------------------------------------------------------------|
-| `SPC m f s` | show a list of current errors                                |
-| `SPC m f t` | show the type of the expression at the current point         |
-| `SPC m f f` | show a diff for the current file with missing types inferred |
-| `SPC m f d` | show where the reference at the current point is defined     |
-| `SPC m f c` | show coverage                                                |
-
 ## Auto-import (import-js)
 
 | Key Binding | Description                                                         |
