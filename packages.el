@@ -11,17 +11,18 @@
 (setq better-javascript-packages
   '(
      add-node-modules-path
-     company
-     (company-flow :requires company)
      emmet-mode
      eslintd-fix
      evil-matchit
-     flow-minor-mode
-     flycheck
-     (flycheck-flow :requires flycheck)
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
      livid-mode
+     (lsp-javascript-flow
+       :location local
+       :toggle (spacemacs//flow-language-server-detect))
+     (lsp-javascript-typescript
+       :location local
+       :toggle (spacemacs//javascript-typescript-stdio-detect))
      (prettier-eslint
        :location local
        :toggle (spacemacs//prettier-eslint-detect))
@@ -29,18 +30,16 @@
      skewer-mode
      smartparens))
 
-(setq better-javascript-excluded-packages '())
+(setq better-javascript-excluded-packages
+  '(
+     company-tern
+     counsel-gtags
+     ggtags
+     helm-gtags
+     tern))
 
 (defun better-javascript/post-init-add-node-modules-path ()
   (add-hook 'rjsx-mode-hook #'add-node-modules-path))
-
-(defun better-javascript/post-init-company ()
-  (spacemacs|add-company-backends
-    :backends '((company-flow :with company-dabbrev-code) company-files)))
-
-(defun better-javascript/init-company-flow ()
-  (use-package company-flow
-    :defer t))
 
 (defun better-javascript/post-init-emmet-mode ()
   (add-hook 'rjsx-mode-hook #'emmet-mode))
@@ -62,36 +61,12 @@
          (evilmi-javascript-get-tag evilmi-javascript-jump)
          (evilmi-html-get-tag evilmi-html-jump)))))
 
-(defun better-javascript/init-flow-minor-mode ()
-  (use-package flow-minor-mode
-    :defer t
-    :config
-    (progn
-      (spacemacs|hide-lighter flow-minor-mode)
-      (spacemacs|define-jump-handlers flow-minor-mode
-        #'flow-minor-jump-to-definition)
-      (spacemacs/declare-prefix-for-mode 'rjsx-mode "mf" "flow")
-      (spacemacs/set-leader-keys-for-minor-mode 'flow-minor-mode
-        "fc" 'flow-minor-coverage
-        "fd" 'flow-minor-jump-to-definition
-        "ff" 'flow-minor-suggest
-        "fs" 'flow-minor-status
-        "ft" 'flow-minor-type-at-pos))
-    :hook (rjsx-mode . flow-minor-enable-automatically)))
-
 (defun better-javascript/post-init-flycheck ()
   (spacemacs/enable-flycheck 'rjsx-mode)
   (with-eval-after-load 'flycheck
     (push 'javascript-jshint flycheck-disabled-checkers)
     (push 'javascript-standard flycheck-disabled-checkers))
   (add-hook 'rjsx-mode-hook #'spacemacs/setup-flycheck-eslint))
-
-(defun better-javascript/init-flycheck-flow ()
-  (use-package flycheck-flow
-    :config
-    (progn
-      (flycheck-add-mode 'javascript-flow 'rjsx-mode)
-      (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))))
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
@@ -114,6 +89,14 @@
     :mode livid-mode
     :documentation "Live evaluation of JS buffer change."
     :evil-leader-for-mode (rjsx-mode . "Tl")))
+
+(defun better-javascript/init-lsp-javascript-flow ()
+  (use-package lsp-javascript-flow
+    :commands lsp-javascript-flow-enable))
+
+(defun better-javascript/init-lsp-javascript-typescript ()
+  (use-package lsp-javascript-typescript
+    :commands lsp-javascript-typescript-enable))
 
 (defun better-javascript/init-prettier-eslint ()
   (use-package prettier-eslint

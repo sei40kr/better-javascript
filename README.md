@@ -82,4 +82,5 @@ $ npm install -g eslint-cli eslint_d
 # Special Thanks
 
 * [@agevelt's aj-javascript layer for Spacemacs](https://github.com/agevelt/.spacemacs.d/tree/master/layers/%2Baj/aj-javascript)
+* [@an-sh's flow-minor-mode](https://github.com/an-sh/flow-minor-mode/blob/master/flow-minor-mode.el)
 * [@evindor's prettier-eslint-emacs](https://github.com/evindor/prettier-eslint-emacs/blob/master/prettier-eslint.el)
