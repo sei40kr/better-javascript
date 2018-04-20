@@ -11,6 +11,7 @@
 (setq better-javascript-packages
   '(
      add-node-modules-path
+     company
      emmet-mode
      eslintd-fix
      evil-matchit
@@ -40,6 +41,9 @@
 
 (defun better-javascript/post-init-add-node-modules-path ()
   (add-hook 'rjsx-mode-hook #'add-node-modules-path))
+
+(defun better-javascript/post-init-company ()
+  (spacemacs|add-company-backends :backends company-files))
 
 (defun better-javascript/post-init-emmet-mode ()
   (add-hook 'rjsx-mode-hook #'emmet-mode))
