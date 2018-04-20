@@ -77,7 +77,8 @@
   (add-hook 'js2-jsx-mode-hook #'spacemacs//setup-javascript-flycheck-eslint)
   (with-eval-after-load 'flycheck
     (push 'javascript-jshint flycheck-disabled-checkers)
-    (push 'javascript-standard flycheck-disabled-checkers)))
+    (push 'javascript-standard flycheck-disabled-checkers)
+    (flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
