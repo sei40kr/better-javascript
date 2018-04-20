@@ -14,9 +14,7 @@
      company
      emmet-mode
      evil-matchit
-     (flow-js2-mode
-       :location local
-       :requires '(flow-minor-mode js2-mode))
+     (flow-js2-mode :location local)
      flow-minor-mode
      flycheck
      (import-js :toggle (spacemacs//import-js-detect))
@@ -62,11 +60,10 @@
 
 (defun better-javascript/init-flow-js2-mode ()
   (use-package flow-js2-mode
-    :commands flow-js2-mode
-    :init
-    (add-hook 'rjsx-mode-hook #'(lambda () (flow-js2-mode 1)))
+    :commands activate-flow-js2-mode
     :config
-    (spacemacs|hide-lighter flow-js2-mode)))
+    (spacemacs|hide-lighter flow-js2-mode)
+    :hook (rjsx-mode . activate-flow-js2-mode)))
 
 (defun better-javascript/init-flow-minor-mode ()
   (use-package flow-minor-mode
