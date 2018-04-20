@@ -13,9 +13,9 @@
 
 (defun spacemacs//setup-javascript-flycheck-eslint ()
   (interactive)
-  (when-let* (('found (executable-find "eslint_d")))
+  (when-let* ((found (executable-find "eslint_d")))
     (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
-    (custom-set-variables (flycheck-javascript-eslint-executable found))))
+    (custom-set-variables '(flycheck-javascript-eslint-executable found))))
 
 
 ;; import-js
@@ -31,7 +31,10 @@
 ;; js2-jsx-mode
 
 (defun spacemacs//setup-javascript-lsp ()
-  (if (and (spacemacs//flow-tag-present-p) (spacemacs//flow-configured-p))
+  (if (and
+        (configuration-layer/package-used-p 'flow-minor-mode)
+        (flow-minor-tag-present-p)
+        (flow-minor-configured-p))
     (lsp-javascript-flow-enable)
     (lsp-javascript-typescript-enable)))
 
@@ -51,35 +54,6 @@
     (unless found
       (spacemacs-buffer/warning "flow-language-server not found!"))
     found))
-
-(defun spacemacs//flow-tag-present-p ()
-  "Return true if the '// @flow' tag is present in the current buffer."
-  (save-excursion
-    (goto-char (point-min))
-    (let (stop found)
-      (while (not stop)
-        (when (not (re-search-forward "[^\n[:space:]]" nil t))
-          (setq stop t))
-        (if (equal (point) (point-min))
-          (setq stop t)
-          (backward-char))
-        (cond ((or (looking-at "//+[ ]*@flow")
-                 (looking-at "/\\**[ ]*@flow"))
-                (setq found t)
-                (setq stop t))
-          ((looking-at "//")
-            (forward-line))
-          ((looking-at "/\\*")
-            (when (not (re-search-forward "*/" nil t))
-              (setq stop t)))
-          (t (setq stop t))))
-      found)))
-
-(defun spacemacs//flow-configured-p ()
-  "Predicate to check configuration."
-  (locate-dominating-file
-    (or (buffer-file-name) default-directory)
-    ".flowconfig"))
 
 
 ;; lsp-javascript-typescript

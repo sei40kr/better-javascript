@@ -14,6 +14,10 @@
      company
      emmet-mode
      evil-matchit
+     (flow-js2-mode
+       :location local
+       :requires flow-minor-mode)
+     flow-minor-mode
      flycheck
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
@@ -28,7 +32,6 @@
      (prettier-eslint
        :location local
        :toggle (spacemacs//prettier-eslint-detect))
-     js2-mode
      skewer-mode
      smartparens))
 
@@ -56,6 +59,18 @@
       '((evilmi-simple-get-tag evilmi-simple-jump)
          (evilmi-javascript-get-tag evilmi-javascript-jump)
          (evilmi-html-get-tag evilmi-html-jump)))))
+
+(defun better-javascript/init-flow-js2-mode ()
+  (use-package flow-js2-mode
+    :commands flow-js2-mode
+    :init
+    (add-hook 'js2-jsx-mode-hook #'(lambda () (flow-js2-mode 1)))
+    :config
+    (spacemacs|hide-lighter flow-js2-mode)))
+
+(defun better-javascript/init-flow-minor-mode ()
+  (use-package flow-minor-mode
+    :commands (flow-minor-tag-present-p flow-minor-configured-p)))
 
 (defun better-javascript/post-init-flycheck ()
   (spacemacs/enable-flycheck 'js2-jsx-mode)
@@ -92,14 +107,19 @@
     '(js2-strict-cond-assign-warning nil)
     '(js2-strict-var-redeclaration-warning nil)
     '(js2-strict-var-hides-function-arg-warning nil))
-  (spacemacs/declare-prefix-for-mode 'js2-jsx-mode "mz" "folding")
-  (spacemacs/set-leader-keys-for-major-mode 'js2-jsx-mode
-    "zc" #'js2-mode-hide-element
-    "zo" #'js2-mode-show-element
-    "zr" #'js2-mode-show-all
-    "ze" #'js2-mode-toggle-element
-    "zF" #'js2-mode-toggle-hide-functions
-    "zC" #'js2-mode-toggle-hide-comments))
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+  (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+  (add-hook 'js2-jsx-mode-hook #'spacemacs//setup-js2-jsx-mode)
+  (spacemacs|use-package-add-hook
+    :post-config
+    (spacemacs/declare-prefix-for-mode 'js2-jsx-mode "mz" "folding")
+    (spacemacs/set-leader-keys-for-major-mode 'js2-jsx-mode
+      "zc" #'js2-mode-hide-element
+      "zo" #'js2-mode-show-element
+      "zr" #'js2-mode-show-all
+      "ze" #'js2-mode-toggle-element
+      "zF" #'js2-mode-toggle-hide-functions
+      "zC" #'js2-mode-toggle-hide-comments)))
 
 (defun better-javascript/pre-init-livid-mode ()
   (spacemacs|add-toggle javascript-repl-live-evaluation
