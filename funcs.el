@@ -28,24 +28,6 @@
     found))
 
 
-;; js2-jsx-mode
-
-(defun spacemacs//setup-javascript-lsp ()
-  (if (and
-        (configuration-layer/package-used-p 'flow-minor-mode)
-        (flow-minor-tag-present-p)
-        (flow-minor-configured-p))
-    (lsp-javascript-flow-enable)
-    (lsp-javascript-typescript-enable)))
-
-(defun spacemacs//setup-js2-jsx-mode ()
-  (setq-local company-minimum-prefix-length 2)
-  (setq-local emmet-expand-jsx-className? t)
-  (when (configuration-layer/layer-used-p 'lsp)
-    (spacemacs//setup-javascript-lsp))
-  (yas-activate-extra-mode 'js-mode))
-
-
 ;; lsp-javascript-flow
 
 (defun spacemacs//flow-language-server-detect ()
@@ -74,3 +56,20 @@
     (unless found
       (spacemacs-buffer/warning "prettier-eslint binary not found!"))
     found))
+
+
+;; rjsx-mode
+
+(defun spacemacs//setup-javascript-lsp ()
+  (if (and
+        (configuration-layer/package-used-p 'flow-minor-mode)
+        (flow-minor-tag-present-p))
+    (lsp-javascript-flow-enable)
+    (lsp-javascript-typescript-enable)))
+
+(defun spacemacs//setup-rjsx-mode ()
+  (setq-local company-minimum-prefix-length 2)
+  (setq-local emmet-expand-jsx-className? t)
+  (when (configuration-layer/layer-used-p 'lsp)
+    (spacemacs//setup-javascript-lsp))
+  (yas-activate-extra-mode 'js-mode))
