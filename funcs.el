@@ -11,7 +11,7 @@
 
 ;; flycheck
 
-(defun spacemacs//setup-flycheck-eslint-executable ()
+(defun spacemacs//setup-javascript-flycheck-eslint ()
   (interactive)
   (when-let (found (executable-find "eslint_d"))
     (make-variable-buffer-local 'flycheck-javascript-eslint-executable)
