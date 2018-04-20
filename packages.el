@@ -15,6 +15,7 @@
      emmet-mode
      eslintd-fix
      evil-matchit
+     flycheck
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
      livid-mode
