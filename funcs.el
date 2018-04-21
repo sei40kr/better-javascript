@@ -11,37 +11,26 @@
 
 ;; emmet-mode
 
-(defun spacemacs//enable-emmet-mode ()
+(defun spacemacs//emmet-mode-enable ()
   "Enable emmet-mode in current buffer."
   (emmet-mode 1))
 
 
-;; evil-matchit
-
-(defun spacemacs//setup-evil-matchit-for-rjsx-mode ()
-  "Setup evil-matchit for rjsx-mode."
-  (plist-put evilmi-plugins 'rjsx-mode
-    '(
-       (evilmi-simple-get-tag evilmi-simple-jump)
-       (evilmi-javascript-get-tag evilmi-javascript-jump)
-       (evilmi-html-get-tag evilmi-html-jump))))
-
-
 ;; flycheck
 
-(defun spacemacs//setup-flycheck-javascript-eslint ()
+(defun spacemacs//flycheck-eslint-set-executable ()
   "Set the executable path of ESLint."
   (interactive)
   (when-let ((found (executable-find "eslint_d")))
     (set (make-local-variable 'flycheck-javascript-eslint-executable) found)))
 
-(defun spacemacs//setup-flycheck-lsp-ui-for-javascript ()
+(defun spacemacs//javascript-lsp-ui-enable-flycheck ()
   "Add the checker provided by lsp-ui-flycheck after ESLint checker."
   (when (bound-and-true-p lsp-ui-mode)
     (require 'flycheck)
     (flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
 
-(defun spacemacs//setup-javascript-flycheck ()
+(defun spacemacs//javascript-flycheck-setup ()
   "Disable the checkers of javascript-hint, javascript-standard."
   (push 'javascript-jshint flycheck-disabled-checkers)
   (push 'javascript-standard flycheck-disabled-checkers))
@@ -56,7 +45,7 @@
       (spacemacs-buffer/warning "importjsd binary not found!"))
     found))
 
-(defun spacemacs//set-key-bindings-for-import-js (mode)
+(defun spacemacs//import-js-set-key-bindings (mode)
   "Set the key bindings for import-js in the given MODE"
   (spacemacs/declare-prefix-for-mode mode "mi" "import")
   (spacemacs/set-leader-keys-for-major-mode mode
@@ -97,7 +86,7 @@
 
 ;; rjsx-mode
 
-(defun spacemacs//disable-js2-mode-checker ()
+(defun spacemacs//js2-mode-disable-builtin-checker ()
   "Disable the built-in checker in js2-mode."
   (set (make-local-variable 'js2-mode-show-parse-errors) nil)
   (set (make-local-variable 'js2-mode-assume-strict) nil)
@@ -109,18 +98,7 @@
   (set (make-local-variable 'js2-strict-var-redeclaration-warning) nil)
   (set (make-local-variable 'js2-strict-var-hides-function-arg-warning) nil))
 
-(defun spacemacs//set-js2-mode-key-bindings (mode)
-  "Set the key bindings for the built-in commands of js2-mode in the given MODE."
-  (spacemacs/declare-prefix-for-mode mode "mz" "folding")
-  (spacemacs/set-leader-keys-for-major-mode mode
-    "zc" #'js2-mode-hide-element
-    "zo" #'js2-mode-show-element
-    "zr" #'js2-mode-show-all
-    "ze" #'js2-mode-toggle-element
-    "zF" #'js2-mode-toggle-hide-functions
-    "zC" #'js2-mode-toggle-hide-comments))
-
-(defun spacemacs//setup-lsp-javascript ()
+(defun spacemacs//javascript-setup-lsp ()
   "Enable lsp-mode according to @flow tag presence in the buffer."
   (if (flow-minor-tag-present-p)
     (lsp-javascript-flow-enable)
@@ -131,25 +109,5 @@
   (set (make-local-variable 'company-minimum-prefix-length) 2)
   (set (make-local-variable 'emmet-expand-jsx-className) t)
   (when (configuration-layer/layer-used-p 'lsp)
-    (spacemacs//setup-lsp-javascript))
+    (spacemacs//javascript-setup-lsp))
   (yas-activate-extra-mode 'js-mode))
-
-
-;; skewer-mode
-
-(defun spacemacs//set-skewer-mode-key-bindings (mode)
-  "Set the key bindings for skewer-mode in the given MODE"
-  (spacemacs/declare-prefix-for-mode mode "me" "eval")
-  (spacemacs/declare-prefix-for-mode mode "ms" "skewer")
-  (spacemacs/set-leader-keys-for-major-mode mode
-    "'" #'spacemacs/skewer-start-repl
-    "ee" #'skewer-eval-last-expression
-    "eE" #'skewer-eval-print-last-expression
-    "sb" #'skewer-load-buffer
-    "sB" #'spacemacs/skewer-load-buffer-and-focus
-    "si" #'spacemacs/skewer-start-repl
-    "sf" #'skewer-eval-defun
-    "sF" #'spacemacs/skewer-eval-defun-and-focus
-    "sr" #'spacemacs/skewer-eval-region
-    "sR" #'spacemacs/skewer-eval-region-and-focus
-    "ss" #'skewer-repl))
