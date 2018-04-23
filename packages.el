@@ -97,7 +97,7 @@
 
 (defun better-javascript/init-prettier-eslint ()
   (use-package prettier-eslint
-    :defer t
+    :commands prettier-eslint
     :init
     (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
       "=" #'prettier-eslint)))
