@@ -14,7 +14,11 @@
      company
      emmet-mode
      evil-matchit
-     (flow-js2-mode :location local)
+     (flow-js2-mode
+       :location
+       (recipe
+         :fetcher github
+         :repo "Fuco1/flow-js2-mode"))
      flow-minor-mode
      flycheck
      (import-js :toggle (spacemacs//import-js-detect))
@@ -27,7 +31,10 @@
        :location local
        :toggle (spacemacs//javascript-typescript-stdio-detect))
      (prettier-eslint
-       :location local
+       :location
+       (recipe
+         :fetcher github
+         :repo "evindor/prettier-eslint-emacs")
        :toggle (spacemacs//prettier-eslint-detect))
      rjsx-mode
      skewer-mode
