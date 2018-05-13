@@ -32,7 +32,8 @@
        :toggle (spacemacs//prettier-eslint-detect))
      rjsx-mode
      skewer-mode
-     smartparens))
+     smartparens
+     web-beautify))
 
 (setq better-javascript-excluded-packages
   '(
@@ -139,3 +140,9 @@
   (if dotspacemacs-smartparens-strict-mode
     (add-hook 'rjsx-mode-hook #'smartparens-strict-mode)
     (add-hook 'rjsx-mode-hook #'smartparens-mode)))
+
+(defun better-javascript/post-init-web-beautify ()
+  (setq
+    web-beautify-css-program "prettier"
+    web-beautify-js-program "prettier-eslint"
+    web-beautify-args '("--write")))
