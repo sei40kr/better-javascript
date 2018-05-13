@@ -72,8 +72,6 @@
 
 (defun better-javascript/post-init-flycheck ()
   (add-hook 'rjsx-mode-hook #'spacemacs//flycheck-eslint-set-executable)
-  (when (configuration-layer/layer-used-p 'lsp)
-    (add-hook 'rjsx-mode-hook #'spacemacs//javascript-lsp-ui-enable-flycheck))
   (eval-after-load 'flycheck #'spacemacs//javascript-flycheck-setup))
 
 (defun better-javascript/init-import-js ()

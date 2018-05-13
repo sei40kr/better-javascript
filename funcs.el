@@ -24,12 +24,6 @@
   (when-let ((found (executable-find "eslint_d")))
     (set (make-local-variable 'flycheck-javascript-eslint-executable) found)))
 
-(defun spacemacs//javascript-lsp-ui-enable-flycheck ()
-  "Add the checker provided by lsp-ui-flycheck after ESLint checker."
-  (when (bound-and-true-p lsp-ui-mode)
-    (require 'flycheck)
-    (flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
-
 (defun spacemacs//javascript-flycheck-setup ()
   "Disable the checkers of javascript-hint, javascript-standard."
   (push 'javascript-jshint flycheck-disabled-checkers)
@@ -78,16 +72,8 @@
   (set (make-local-variable 'js2-strict-var-redeclaration-warning) nil)
   (set (make-local-variable 'js2-strict-var-hides-function-arg-warning) nil))
 
-(defun spacemacs//javascript-setup-lsp ()
-  "Enable lsp-mode according to @flow tag presence in the buffer."
-  (if (flow-minor-tag-present-p)
-    (lsp-javascript-flow-enable)
-    (lsp-javascript-typescript-enable)))
-
 (defun spacemacs//setup-rjsx-mode ()
   "Setup rjsx-mode locally."
   (set (make-local-variable 'company-minimum-prefix-length) 2)
   (set (make-local-variable 'emmet-expand-jsx-className) t)
-  (when (configuration-layer/layer-used-p 'lsp)
-    (spacemacs//javascript-setup-lsp))
   (yas-activate-extra-mode 'js-mode))
