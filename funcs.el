@@ -24,12 +24,6 @@
   (when-let ((found (executable-find "eslint_d")))
     (set (make-local-variable 'flycheck-javascript-eslint-executable) found)))
 
-(defun spacemacs//javascript-lsp-ui-enable-flycheck ()
-  "Add the checker provided by lsp-ui-flycheck after ESLint checker."
-  (when (bound-and-true-p lsp-ui-mode)
-    (require 'flycheck)
-    (flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
-
 (defun spacemacs//javascript-flycheck-setup ()
   "Disable the checkers of javascript-hint, javascript-standard."
   (push 'javascript-jshint flycheck-disabled-checkers)
