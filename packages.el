@@ -19,17 +19,10 @@
        (recipe
          :fetcher github
          :repo "Fuco1/flow-js2-mode"))
-     flow-minor-mode
      flycheck
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
      livid-mode
-     (lsp-javascript-flow
-       :location local
-       :toggle (spacemacs//flow-language-server-detect))
-     (lsp-javascript-typescript
-       :location local
-       :toggle (spacemacs//javascript-typescript-stdio-detect))
      (prettier-eslint
        :location
        (recipe
@@ -72,14 +65,8 @@
     :config (spacemacs|hide-lighter flow-js2-mode)
     :hook (rjsx-mode . activate-flow-js2-mode)))
 
-(defun better-javascript/init-flow-minor-mode ()
-  (use-package flow-minor-mode
-    :commands (flow-minor-tag-present-p flow-minor-configured-p)))
-
 (defun better-javascript/post-init-flycheck ()
   (add-hook 'rjsx-mode-hook #'spacemacs//flycheck-eslint-set-executable)
-  (when (configuration-layer/layer-used-p 'lsp)
-    (add-hook 'rjsx-mode-hook #'spacemacs//javascript-lsp-ui-enable-flycheck))
   (eval-after-load 'flycheck #'spacemacs//javascript-flycheck-setup))
 
 (defun better-javascript/init-import-js ()
@@ -95,12 +82,6 @@
 (defun better-javascript/post-init-livid-mode ()
   (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode
     "Tl" #'spacemacs/toggle-livid-mode))
-
-(defun better-javascript/init-lsp-javascript-flow ()
-  (use-package lsp-javascript-flow))
-
-(defun better-javascript/init-lsp-javascript-typescript ()
-  (use-package lsp-javascript-typescript))
 
 (defun better-javascript/init-prettier-eslint ()
   (use-package prettier-eslint

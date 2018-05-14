@@ -54,26 +54,6 @@
     "ig" #'import-js-goto))
 
 
-;; lsp-javascript-flow
-
-(defun spacemacs//flow-language-server-detect ()
-  "Detect flow-language-server binary and warn if not found."
-  (let ((found (executable-find "flow-language-server")))
-    (unless found
-      (spacemacs-buffer/warning "flow-language-server not found!"))
-    found))
-
-
-;; lsp-javascript-typescript
-
-(defun spacemacs//javascript-typescript-stdio-detect ()
-  "Detect javascript-typescript-stdio binary and warn if not found."
-  (let ((found (executable-find "javascript-typescript-stdio")))
-    (unless found
-      (spacemacs-buffer/warning "javascript-typescript-stdio not found!"))
-    found))
-
-
 ;; prettier-eslint
 
 (defun spacemacs//prettier-eslint-detect ()
@@ -98,16 +78,8 @@
   (set (make-local-variable 'js2-strict-var-redeclaration-warning) nil)
   (set (make-local-variable 'js2-strict-var-hides-function-arg-warning) nil))
 
-(defun spacemacs//javascript-setup-lsp ()
-  "Enable lsp-mode according to @flow tag presence in the buffer."
-  (if (flow-minor-tag-present-p)
-    (lsp-javascript-flow-enable)
-    (lsp-javascript-typescript-enable)))
-
 (defun spacemacs//setup-rjsx-mode ()
   "Setup rjsx-mode locally."
   (set (make-local-variable 'company-minimum-prefix-length) 2)
   (set (make-local-variable 'emmet-expand-jsx-className) t)
-  (when (configuration-layer/layer-used-p 'lsp)
-    (spacemacs//javascript-setup-lsp))
   (yas-activate-extra-mode 'js-mode))
