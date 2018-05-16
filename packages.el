@@ -19,7 +19,6 @@
        (recipe
          :fetcher github
          :repo "Fuco1/flow-js2-mode"))
-     flow-minor-mode
      flycheck
      (import-js :toggle (spacemacs//import-js-detect))
      js-doc
@@ -66,10 +65,6 @@
     :commands activate-flow-js2-mode
     :config (spacemacs|hide-lighter flow-js2-mode)
     :hook (rjsx-mode . activate-flow-js2-mode)))
-
-(defun better-javascript/init-flow-minor-mode ()
-  (use-package flow-minor-mode
-    :commands (flow-minor-tag-present-p flow-minor-configured-p)))
 
 (defun better-javascript/post-init-flycheck ()
   (add-hook 'rjsx-mode-hook #'spacemacs//flycheck-eslint-set-executable)
