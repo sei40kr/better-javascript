@@ -18,6 +18,8 @@
      import-js
      rjsx-mode))
 
+(setq better-javascript-exclude-packages '(web-beautify))
+
 (defun better-javascript/init-flow-js2-mode ()
   (use-package flow-js2-mode
     :defer t
