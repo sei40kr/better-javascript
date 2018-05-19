@@ -16,6 +16,7 @@
      flow-minor-mode
      flycheck
      import-js
+     prettier-js
      rjsx-mode))
 
 (setq better-javascript-exclude-packages '(web-beautify))
@@ -47,6 +48,17 @@
       (spacemacs//import-js-set-key-bindings 'rjsx-mode)
       (add-hook 'js2-mode-hook #'spacemacs/turn-on-import-js)
       (add-hook 'rjsx-mode-hook #'spacemacs/turn-on-import-js))))
+
+(defun better-javascript/init-prettier-js ()
+  (use-package prettier-js
+    :defer t
+    :init
+    (progn
+      (spacemacs//set-key-bindings-for-prettier-js 'js2-mode)
+      (spacemacs//set-key-bindings-for-prettier-js 'rjsx-mode))
+    :custom
+    (prettier-js-show-errors 'echo))
+  )
 
 (defun better-javascript/post-init-rjsx-mode ()
   (setq
