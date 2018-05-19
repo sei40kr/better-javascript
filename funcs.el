@@ -8,6 +8,14 @@
 ;;
 ;;; License: GPLv3
 
+;; flow-js2-mode
+
+(defun spacemacs//activate-flow-js2-mode ()
+  (require 'flow-minor-mode)
+  (require 'flow-js2-mode)
+  (activate-flow-js2-mode))
+
+
 ;; flycheck
 
 (defun spacemacs//flycheck-javascript-eslint-set-executable ()

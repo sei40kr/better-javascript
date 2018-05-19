@@ -13,6 +13,7 @@
      (flow-js2-mode
        :location (recipe :fetcher github
                          :repo "Fuco1/flow-js2-mode"))
+     flow-minor-mode
      flycheck
      import-js
      rjsx-mode
@@ -20,12 +21,15 @@
 
 (defun better-javascript/init-flow-js2-mode ()
   (use-package flow-js2-mode
-    :commands activate-flow-js2-mode
+    :defer t
     :init
     (progn
-      (add-hook 'js2-mode-hook #'activate-flow-js2-mode)
-      (add-hook 'rjsx-mode-hook #'activate-flow-js2-mode))
+      (add-hook 'js2-mode-hook #'spacemacs//activate-flow-js2-mode)
+      (add-hook 'rjsx-mode-hook #'spacemacs//activate-flow-js2-mode))
     :config (spacemacs|hide-lighter flow-js2-mode)))
+
+(defun better-javascript/init-flow-minor-mode ()
+  (use-package flow-minor-mode :defer t))
 
 (defun better-javascript/post-init-flycheck ()
   (push 'javascript-jshint flycheck-disabled-checkers)
