@@ -35,8 +35,8 @@
 (defun better-javascript/post-init-flycheck ()
   (push 'javascript-jshint flycheck-disabled-checkers)
   (push 'javascript-standard flycheck-disabled-checkers)
-  (add-hook 'js2-mode-hook #'spacemacs//flycheck-javascript-eslint-set-executable)
-  (add-hook 'rjsx-mode-hook #'spacemacs//flycheck-javascript-eslint-set-executable))
+  (add-hook 'js2-mode-hook #'spacemacs//flycheck-javascript-eslint-set-executable t)
+  (add-hook 'rjsx-mode-hook #'spacemacs//flycheck-javascript-eslint-set-executable t))
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
