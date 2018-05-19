@@ -38,3 +38,17 @@
     "if" #'import-js-fix
     "ii" #'import-js-import
     "ig" #'import-js-goto))
+
+
+;; prettier-js
+
+(defun spacemacs//set-key-bindings-for-prettier-js (mode)
+  "Set the key bindings for prettier-js in the given MODE"
+  (spacemacs/set-leader-keys-for-major-mode mode
+    "=" #'spacemacs/prettier-js))
+
+(defun spacemacs/prettier-js ()
+  "Format the current buffer according to the prettier tool."
+  (interactive)
+  (require 'prettier-js)
+  (prettier-js))
