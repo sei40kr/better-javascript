@@ -8,4 +8,4 @@
 ;;
 ;;; License: MIT
 
-(configuration-layer/declare-layer '(javascript lsp))
+(configuration-layer/declare-layer '(javascript))
