@@ -35,6 +35,7 @@
 
 (defun better-javascript/init-import-js ()
   (use-package import-js
+    :defer t
     :init
     (progn
       (spacemacs//import-js-set-key-bindings 'js2-mode)
