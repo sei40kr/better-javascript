@@ -16,8 +16,7 @@
      flow-minor-mode
      flycheck
      import-js
-     rjsx-mode
-     web-beautify))
+     rjsx-mode))
 
 (defun better-javascript/init-flow-js2-mode ()
   (use-package flow-js2-mode
@@ -58,9 +57,3 @@
     js2-strict-cond-assign-warning nil
     js2-strict-var-redeclaration-warning nil
     js2-strict-var-hides-function-arg-warning nil))
-
-(defun better-javascript/post-init-web-beautify ()
-  (setq
-    web-beautify-css-program "prettier"
-    web-beautify-js-program "prettier-eslint"
-    web-beautify-args '("--write")))
