@@ -9,15 +9,15 @@
 ;;; License: GPLv3
 
 (setq better-javascript-packages
-  '(
-     (flow-js2-mode
-       :location (recipe :fetcher github
-                         :repo "Fuco1/flow-js2-mode"))
-     flow-minor-mode
-     flycheck
-     import-js
-     prettier-js
-     rjsx-mode))
+      '(
+        (flow-js2-mode
+         :location (recipe :fetcher github
+                           :repo "Fuco1/flow-js2-mode"))
+        flow-minor-mode
+        flycheck
+        import-js
+        prettier-js
+        rjsx-mode))
 
 (setq better-javascript-exclude-packages '(web-beautify))
 
@@ -62,12 +62,12 @@
 
 (defun better-javascript/post-init-rjsx-mode ()
   (setq
-    js2-mode-show-parse-errors nil
-    js2-mode-assume-strict nil
-    js2-mode-show-strict-warnings nil
-    js2-strict-trailing-comma-warning nil
-    js2-strict-missing-semi-warning nil
-    js2-strict-inconsistent-return-warning nil
-    js2-strict-cond-assign-warning nil
-    js2-strict-var-redeclaration-warning nil
-    js2-strict-var-hides-function-arg-warning nil))
+   js2-mode-show-parse-errors nil
+   js2-mode-assume-strict nil
+   js2-mode-show-strict-warnings nil
+   js2-strict-trailing-comma-warning nil
+   js2-strict-missing-semi-warning nil
+   js2-strict-inconsistent-return-warning nil
+   js2-strict-cond-assign-warning nil
+   js2-strict-var-redeclaration-warning nil
+   js2-strict-var-hides-function-arg-warning nil))
